@@ -23,6 +23,7 @@
 // previous version of flatc whenever this code needs to change.
 // See reflection/generate_code.sh
 #include "flatbuffers/reflection_generated.h"
+#include <flatbuffers\libflatbuffer_cpp_export.h>
 
 // Helper functionality for reflection.
 
@@ -148,13 +149,13 @@ inline const Struct *GetFieldStruct(const Struct &structure,
 // double or a string.
 // All scalars get static_cast to an int64_t, strings use strtoull, every other
 // data type returns 0.
-int64_t GetAnyValueI(reflection::BaseType type, const uint8_t *data);
+LIBFLATBUFFERSCPP_EXPORT int64_t GetAnyValueI(reflection::BaseType type, const uint8_t *data);
 // All scalars static cast to double, strings use strtod, every other data
 // type is 0.0.
-double GetAnyValueF(reflection::BaseType type, const uint8_t *data);
+LIBFLATBUFFERSCPP_EXPORT double GetAnyValueF(reflection::BaseType type, const uint8_t *data);
 // All scalars converted using stringstream, strings as-is, and all other
 // data types provide some level of debug-pretty-printing.
-std::string GetAnyValueS(reflection::BaseType type, const uint8_t *data,
+LIBFLATBUFFERSCPP_EXPORT std::string GetAnyValueS(reflection::BaseType type, const uint8_t *data,
                          const reflection::Schema *schema, int type_index);
 
 // Get any table field as a 64bit int, regardless of what type it is.
@@ -276,9 +277,9 @@ bool SetField(Table *table, const reflection::Field &field, T val) {
 // double or a string.
 // These work for all scalar values, but do nothing for other data types.
 // To set a string, see SetString below.
-void SetAnyValueI(reflection::BaseType type, uint8_t *data, int64_t val);
-void SetAnyValueF(reflection::BaseType type, uint8_t *data, double val);
-void SetAnyValueS(reflection::BaseType type, uint8_t *data, const char *val);
+LIBFLATBUFFERSCPP_EXPORT void SetAnyValueI(reflection::BaseType type, uint8_t *data, int64_t val);
+LIBFLATBUFFERSCPP_EXPORT void SetAnyValueF(reflection::BaseType type, uint8_t *data, double val);
+LIBFLATBUFFERSCPP_EXPORT void SetAnyValueS(reflection::BaseType type, uint8_t *data, const char *val);
 
 // Set any table field as a 64bit int, regardless of type what it is.
 inline bool SetAnyFieldI(Table *table, const reflection::Field &field,
@@ -396,7 +397,7 @@ inline const reflection::Object &GetUnionType(
 // "str" must live inside "flatbuf" and may be invalidated after this call.
 // If your FlatBuffer's root table is not the schema's root table, you should
 // pass in your root_table type as well.
-void SetString(const reflection::Schema &schema, const std::string &val,
+LIBFLATBUFFERSCPP_EXPORT void SetString(const reflection::Schema &schema, const std::string &val,
                const String *str, std::vector<uint8_t> *flatbuf,
                const reflection::Object *root_table = nullptr);
 
@@ -405,7 +406,7 @@ void SetString(const reflection::Schema &schema, const std::string &val,
 // "vec" must live inside "flatbuf" and may be invalidated after this call.
 // If your FlatBuffer's root table is not the schema's root table, you should
 // pass in your root_table type as well.
-uint8_t *ResizeAnyVector(const reflection::Schema &schema, uoffset_t newsize,
+LIBFLATBUFFERSCPP_EXPORT uint8_t *ResizeAnyVector(const reflection::Schema &schema, uoffset_t newsize,
                          const VectorOfAny *vec, uoffset_t num_elems,
                          uoffset_t elem_size, std::vector<uint8_t> *flatbuf,
                          const reflection::Object *root_table = nullptr);
@@ -438,7 +439,7 @@ void ResizeVector(const reflection::Schema &schema, uoffset_t newsize, T val,
 // existing one.
 // The return value can now be set using Vector::MutateOffset or SetFieldT
 // below.
-const uint8_t *AddFlatBuffer(std::vector<uint8_t> &flatbuf,
+LIBFLATBUFFERSCPP_EXPORT const uint8_t *AddFlatBuffer(std::vector<uint8_t> &flatbuf,
                              const uint8_t *newbuf, size_t newlen);
 
 inline bool SetFieldT(Table *table, const reflection::Field &field,
@@ -459,7 +460,7 @@ inline bool SetFieldT(Table *table, const reflection::Field &field,
 // DAG, the copy will be a tree instead (with duplicates). Strings can be
 // shared however, by passing true for use_string_pooling.
 
-Offset<const Table *> CopyTable(FlatBufferBuilder &fbb,
+LIBFLATBUFFERSCPP_EXPORT Offset<const Table *> CopyTable(FlatBufferBuilder &fbb,
                                 const reflection::Schema &schema,
                                 const reflection::Object &objectdef,
                                 const Table &table,
@@ -469,7 +470,7 @@ Offset<const Table *> CopyTable(FlatBufferBuilder &fbb,
 // root should point to the root type for this flatbuffer.
 // buf should point to the start of flatbuffer data.
 // length specifies the size of the flatbuffer data.
-bool Verify(const reflection::Schema &schema, const reflection::Object &root,
+LIBFLATBUFFERSCPP_EXPORT bool Verify(const reflection::Schema &schema, const reflection::Object &root,
             const uint8_t *buf, size_t length);
 
 }  // namespace flatbuffers

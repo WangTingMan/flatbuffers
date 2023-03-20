@@ -27,6 +27,8 @@
 #include "flatbuffers/hash.h"
 #include "flatbuffers/reflection.h"
 
+#include <flatbuffers\libflatbuffer_cpp_export.h>
+
 #if !defined(FLATBUFFERS_CPP98_STL)
 #  include <functional>
 #endif  // !defined(FLATBUFFERS_CPP98_STL)
@@ -158,7 +160,7 @@ class Parser;
 
 // Represents any type in the IDL, which is a combination of the BaseType
 // and additional information for vectors/structs_.
-struct Type {
+struct LIBFLATBUFFERSCPP_EXPORT Type {
   explicit Type(BaseType _base_type = BASE_TYPE_NONE, StructDef *_sd = nullptr,
                 EnumDef *_ed = nullptr, uint16_t _fixed_length = 0)
       : base_type(_base_type),
@@ -236,7 +238,7 @@ template<typename T> class SymbolTable {
 };
 
 // A name space, as set in the schema.
-struct Namespace {
+struct LIBFLATBUFFERSCPP_EXPORT Namespace {
   Namespace() : from_table(0) {}
 
   // Given a (potentally unqualified) name, return the "fully qualified" name
@@ -260,7 +262,7 @@ inline bool operator<(const Namespace &a, const Namespace &b) {
 }
 
 // Base class for all definition types (fields, structs_, enums_).
-struct Definition {
+struct LIBFLATBUFFERSCPP_EXPORT Definition {
   Definition()
       : generated(false),
         defined_namespace(nullptr),
@@ -288,7 +290,7 @@ struct Definition {
   int refcount;
 };
 
-struct FieldDef : public Definition {
+struct LIBFLATBUFFERSCPP_EXPORT FieldDef : public Definition {
   FieldDef()
       : deprecated(false),
         required(false),
@@ -318,7 +320,7 @@ struct FieldDef : public Definition {
   size_t padding;                // Bytes to always pad after this field.
 };
 
-struct StructDef : public Definition {
+struct LIBFLATBUFFERSCPP_EXPORT StructDef : public Definition {
   StructDef()
       : fixed(false),
         predecl(true),
@@ -353,7 +355,7 @@ struct StructDef : public Definition {
 struct EnumDef;
 struct EnumValBuilder;
 
-struct EnumVal {
+struct LIBFLATBUFFERSCPP_EXPORT EnumVal {
   Offset<reflection::EnumVal> Serialize(FlatBufferBuilder *builder,
                                         const Parser &parser) const;
 
@@ -379,7 +381,7 @@ struct EnumVal {
   int64_t value;
 };
 
-struct EnumDef : public Definition {
+struct LIBFLATBUFFERSCPP_EXPORT EnumDef : public Definition {
   EnumDef() : is_union(false), uses_multiple_type_instances(false) {}
 
   Offset<reflection::Enum> Serialize(FlatBufferBuilder *builder,
@@ -738,7 +740,7 @@ class CheckedError {
 #endif
 // clang-format on
 
-class Parser : public ParserState {
+class LIBFLATBUFFERSCPP_EXPORT Parser : public ParserState {
  public:
   explicit Parser(const IDLOptions &options = IDLOptions())
       : current_namespace_(nullptr),
@@ -972,9 +974,9 @@ class Parser : public ParserState {
 
 // Utility functions for multiple generators:
 
-extern std::string MakeCamel(const std::string &in, bool first = true);
+LIBFLATBUFFERSCPP_EXPORT std::string MakeCamel(const std::string &in, bool first = true);
 
-extern std::string MakeScreamingCamel(const std::string &in);
+LIBFLATBUFFERSCPP_EXPORT std::string MakeScreamingCamel(const std::string &in);
 
 // Generate text (JSON) from a given FlatBuffer, and a given Parser
 // object that has been populated with the corresponding schema.
@@ -984,91 +986,91 @@ extern std::string MakeScreamingCamel(const std::string &in);
 // strict_json adds "quotes" around field names if true.
 // If the flatbuffer cannot be encoded in JSON (e.g., it contains non-UTF-8
 // byte arrays in String values), returns false.
-extern bool GenerateTextFromTable(const Parser &parser, const void *table,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateTextFromTable(const Parser &parser, const void *table,
                                   const std::string &tablename,
                                   std::string *text);
-extern bool GenerateText(const Parser &parser, const void *flatbuffer,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateText(const Parser &parser, const void *flatbuffer,
                          std::string *text);
-extern bool GenerateTextFile(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateTextFile(const Parser &parser, const std::string &path,
                              const std::string &file_name);
 
 // Generate binary files from a given FlatBuffer, and a given Parser
 // object that has been populated with the corresponding schema.
 // See code_generators.cpp.
-extern bool GenerateBinary(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateBinary(const Parser &parser, const std::string &path,
                            const std::string &file_name);
 
 // Generate a C++ header from the definitions in the Parser object.
 // See idl_gen_cpp.
-extern bool GenerateCPP(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateCPP(const Parser &parser, const std::string &path,
                         const std::string &file_name);
 
 // Generate C# files from the definitions in the Parser object.
 // See idl_gen_csharp.cpp.
-extern bool GenerateCSharp(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateCSharp(const Parser &parser, const std::string &path,
                            const std::string &file_name);
 
-extern bool GenerateDart(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateDart(const Parser &parser, const std::string &path,
                          const std::string &file_name);
 
 // Generate Java files from the definitions in the Parser object.
 // See idl_gen_java.cpp.
-extern bool GenerateJava(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateJava(const Parser &parser, const std::string &path,
                          const std::string &file_name);
 
 // Generate JavaScript or TypeScript code from the definitions in the Parser
 // object. See idl_gen_js.
-extern bool GenerateJSTS(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateJSTS(const Parser &parser, const std::string &path,
                          const std::string &file_name);
 
 // Generate Go files from the definitions in the Parser object.
 // See idl_gen_go.cpp.
-extern bool GenerateGo(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateGo(const Parser &parser, const std::string &path,
                        const std::string &file_name);
 
 // Generate Php code from the definitions in the Parser object.
 // See idl_gen_php.
-extern bool GeneratePhp(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GeneratePhp(const Parser &parser, const std::string &path,
                         const std::string &file_name);
 
 // Generate Python files from the definitions in the Parser object.
 // See idl_gen_python.cpp.
-extern bool GeneratePython(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GeneratePython(const Parser &parser, const std::string &path,
                            const std::string &file_name);
 
 // Generate Lobster files from the definitions in the Parser object.
 // See idl_gen_lobster.cpp.
-extern bool GenerateLobster(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateLobster(const Parser &parser, const std::string &path,
                             const std::string &file_name);
 
 // Generate Lua files from the definitions in the Parser object.
 // See idl_gen_lua.cpp.
-extern bool GenerateLua(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateLua(const Parser &parser, const std::string &path,
                         const std::string &file_name);
 
 // Generate Rust files from the definitions in the Parser object.
 // See idl_gen_rust.cpp.
-extern bool GenerateRust(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateRust(const Parser &parser, const std::string &path,
                          const std::string &file_name);
 
 // Generate Json schema file
 // See idl_gen_json_schema.cpp.
-extern bool GenerateJsonSchema(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateJsonSchema(const Parser &parser, const std::string &path,
                                const std::string &file_name);
 
-extern bool GenerateKotlin(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateKotlin(const Parser &parser, const std::string &path,
                            const std::string &file_name);
 
 // Generate Swift classes.
 // See idl_gen_swift.cpp
-extern bool GenerateSwift(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateSwift(const Parser &parser, const std::string &path,
                           const std::string &file_name);
 
 // Generate a schema file from the internal representation, useful after
 // parsing a .proto schema.
-extern std::string GenerateFBS(const Parser &parser,
+LIBFLATBUFFERSCPP_EXPORT std::string GenerateFBS(const Parser &parser,
                                const std::string &file_name);
-extern bool GenerateFBS(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT bool GenerateFBS(const Parser &parser, const std::string &path,
                         const std::string &file_name);
 
 // Generate a make rule for the generated JavaScript or TypeScript code.
@@ -1093,18 +1095,18 @@ extern std::string RustMakeRule(const Parser &parser, const std::string &path,
 
 // Generate a make rule for generated Java or C# files.
 // See code_generators.cpp.
-extern std::string JavaCSharpMakeRule(const Parser &parser,
+LIBFLATBUFFERSCPP_EXPORT std::string JavaCSharpMakeRule(const Parser &parser,
                                       const std::string &path,
                                       const std::string &file_name);
 
 // Generate a make rule for the generated text (JSON) files.
 // See idl_gen_text.cpp.
-extern std::string TextMakeRule(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT std::string TextMakeRule(const Parser &parser, const std::string &path,
                                 const std::string &file_names);
 
 // Generate a make rule for the generated binary files.
 // See code_generators.cpp.
-extern std::string BinaryMakeRule(const Parser &parser, const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT std::string BinaryMakeRule(const Parser &parser, const std::string &path,
                                   const std::string &file_name);
 
 // Generate GRPC Cpp interfaces.

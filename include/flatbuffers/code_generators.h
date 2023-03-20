@@ -22,6 +22,8 @@
 
 #include "flatbuffers/idl.h"
 
+#include <flatbuffers\libflatbuffer_cpp_export.h>
+
 namespace flatbuffers {
 
 // Utility class to assist in generating code through use of text templates.
@@ -37,7 +39,7 @@ namespace flatbuffers {
 // Output:
 //  void Foo() { printf("%s", "Foo"); }
 //  void Bar() { printf("%s", "Bar"); }
-class CodeWriter {
+class LIBFLATBUFFERSCPP_EXPORT CodeWriter {
  public:
   CodeWriter(std::string pad = std::string())
       : pad_(pad), cur_ident_lvl_(0), ignore_ident_(false) {}
@@ -87,7 +89,7 @@ class CodeWriter {
   void AppendIdent(std::stringstream &stream);
 };
 
-class BaseGenerator {
+class LIBFLATBUFFERSCPP_EXPORT BaseGenerator {
  public:
   virtual bool generate() = 0;
 
@@ -152,11 +154,11 @@ struct CommentConfig {
   const char *last_line;
 };
 
-extern void GenComment(const std::vector<std::string> &dc,
+LIBFLATBUFFERSCPP_EXPORT void GenComment(const std::vector<std::string> &dc,
                        std::string *code_ptr, const CommentConfig *config,
                        const char *prefix = "");
 
-class FloatConstantGenerator {
+class LIBFLATBUFFERSCPP_EXPORT FloatConstantGenerator {
  public:
   virtual ~FloatConstantGenerator() {}
   std::string GenFloatConstant(const FieldDef &field) const;
@@ -174,7 +176,7 @@ class FloatConstantGenerator {
   std::string GenFloatConstantImpl(const FieldDef &field) const;
 };
 
-class SimpleFloatConstantGenerator : public FloatConstantGenerator {
+class LIBFLATBUFFERSCPP_EXPORT SimpleFloatConstantGenerator : public FloatConstantGenerator {
  public:
   SimpleFloatConstantGenerator(const char *nan_number,
                                const char *pos_inf_number,
@@ -196,7 +198,7 @@ class SimpleFloatConstantGenerator : public FloatConstantGenerator {
 };
 
 // C++, C#, Java like generator.
-class TypedFloatConstantGenerator : public FloatConstantGenerator {
+class LIBFLATBUFFERSCPP_EXPORT TypedFloatConstantGenerator : public FloatConstantGenerator {
  public:
   TypedFloatConstantGenerator(const char *double_prefix,
                               const char *single_prefix, const char *nan_number,

@@ -31,6 +31,8 @@
 #include <iomanip>
 #include <string>
 
+#include <flatbuffers\libflatbuffer_cpp_export.h>
+
 namespace flatbuffers {
 
 // @locale-independent functions for ASCII characters set.
@@ -204,7 +206,7 @@ inline std::string IntToStringHex(int i, int xdigits) {
 // clang-format off
 // Use locale independent functions {strtod_l, strtof_l, strtoll_l, strtoull_l}.
 #if defined(FLATBUFFERS_LOCALE_INDEPENDENT) && (FLATBUFFERS_LOCALE_INDEPENDENT > 0)
-  class ClassicLocale {
+  class LIBFLATBUFFERSCPP_EXPORT ClassicLocale {
     #ifdef _MSC_VER
       typedef _locale_t locale_type;
     #else
@@ -394,29 +396,30 @@ typedef bool (*LoadFileFunction)(const char *filename, bool binary,
                                  std::string *dest);
 typedef bool (*FileExistsFunction)(const char *filename);
 
-LoadFileFunction SetLoadFileFunction(LoadFileFunction load_file_function);
+LIBFLATBUFFERSCPP_EXPORT LoadFileFunction
+SetLoadFileFunction(LoadFileFunction load_file_function);
 
-FileExistsFunction SetFileExistsFunction(
+LIBFLATBUFFERSCPP_EXPORT FileExistsFunction SetFileExistsFunction(
     FileExistsFunction file_exists_function);
 
 // Check if file "name" exists.
-bool FileExists(const char *name);
+LIBFLATBUFFERSCPP_EXPORT bool FileExists(const char *name);
 
 // Check if "name" exists and it is also a directory.
-bool DirExists(const char *name);
+LIBFLATBUFFERSCPP_EXPORT bool DirExists(const char *name);
 
 // Load file "name" into "buf" returning true if successful
 // false otherwise.  If "binary" is false data is read
 // using ifstream's text mode, otherwise data is read with
 // no transcoding.
-bool LoadFile(const char *name, bool binary, std::string *buf);
+LIBFLATBUFFERSCPP_EXPORT bool LoadFile(const char *name, bool binary, std::string *buf);
 
 // Save data "buf" of length "len" bytes into a file
 // "name" returning true if successful, false otherwise.
 // If "binary" is false data is written using ifstream's
 // text mode, otherwise data is written with no
 // transcoding.
-bool SaveFile(const char *name, const char *buf, size_t len, bool binary);
+LIBFLATBUFFERSCPP_EXPORT bool SaveFile(const char *name, const char *buf, size_t len, bool binary);
 
 // Save data "buf" into file "name" returning true if
 // successful, false otherwise.  If "binary" is false
@@ -435,32 +438,32 @@ inline bool SaveFile(const char *name, const std::string &buf, bool binary) {
 FLATBUFFERS_CONSTEXPR char kPathSeparator = '/';
 
 // Returns the path with the extension, if any, removed.
-std::string StripExtension(const std::string &filepath);
+LIBFLATBUFFERSCPP_EXPORT std::string StripExtension(const std::string &filepath);
 
 // Returns the extension, if any.
-std::string GetExtension(const std::string &filepath);
+LIBFLATBUFFERSCPP_EXPORT std::string GetExtension(const std::string &filepath);
 
 // Return the last component of the path, after the last separator.
-std::string StripPath(const std::string &filepath);
+LIBFLATBUFFERSCPP_EXPORT std::string StripPath(const std::string &filepath);
 
 // Strip the last component of the path + separator.
-std::string StripFileName(const std::string &filepath);
+LIBFLATBUFFERSCPP_EXPORT std::string StripFileName(const std::string &filepath);
 
 // Concatenates a path with a filename, regardless of wether the path
 // ends in a separator or not.
-std::string ConCatPathFileName(const std::string &path,
+LIBFLATBUFFERSCPP_EXPORT std::string ConCatPathFileName(const std::string &path,
                                const std::string &filename);
 
 // Replaces any '\\' separators with '/'
-std::string PosixPath(const char *path);
+LIBFLATBUFFERSCPP_EXPORT std::string PosixPath(const char *path);
 
 // This function ensure a directory exists, by recursively
 // creating dirs for any parts of the path that don't exist yet.
-void EnsureDirExists(const std::string &filepath);
+LIBFLATBUFFERSCPP_EXPORT void EnsureDirExists(const std::string &filepath);
 
 // Obtains the absolute path from any other path.
 // Returns the input path if the absolute path couldn't be resolved.
-std::string AbsolutePath(const std::string &filepath);
+LIBFLATBUFFERSCPP_EXPORT std::string AbsolutePath(const std::string &filepath);
 
 // To and from UTF-8 unicode conversion functions
 
@@ -663,20 +666,20 @@ inline std::string BufferToHexText(const void *buffer, size_t buffer_size,
 }
 
 // Remove paired quotes in a string: "text"|'text' -> text.
-std::string RemoveStringQuotes(const std::string &s);
+LIBFLATBUFFERSCPP_EXPORT std::string RemoveStringQuotes(const std::string &s);
 
 // Change th global C-locale to locale with name <locale_name>.
 // Returns an actual locale name in <_value>, useful if locale_name is "" or
 // null.
-bool SetGlobalTestLocale(const char *locale_name,
+LIBFLATBUFFERSCPP_EXPORT bool SetGlobalTestLocale(const char *locale_name,
                          std::string *_value = nullptr);
 
 // Read (or test) a value of environment variable.
-bool ReadEnvironmentVariable(const char *var_name,
+LIBFLATBUFFERSCPP_EXPORT bool ReadEnvironmentVariable(const char *var_name,
                              std::string *_value = nullptr);
 
 // MSVC specific: Send all assert reports to STDOUT to prevent CI hangs.
-void SetupDefaultCRTReportMode();
+LIBFLATBUFFERSCPP_EXPORT void SetupDefaultCRTReportMode();
 
 }  // namespace flatbuffers
 

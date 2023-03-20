@@ -59,6 +59,8 @@
 #include <intrinsics.h>
 #endif
 
+#include <flatbuffers\libflatbuffer_cpp_export.h>
+
 // Note the __clang__ check is needed, because clang presents itself
 // as an older GNUC compiler (4.2).
 // Clang 3.3 and later implement all of the ISO C++ 2011 standard.
@@ -146,7 +148,7 @@
 #define FLATBUFFERS_STRING(X) FLATBUFFERS_STRING_EXPAND(X)
 namespace flatbuffers {
   // Returns version as string  "MAJOR.MINOR.REVISION".
-  const char* FLATBUFFERS_VERSION();
+  LIBFLATBUFFERSCPP_EXPORT const char* FLATBUFFERS_VERSION();
 }
 
 #if (!defined(_MSC_VER) || _MSC_VER > 1600) && \
