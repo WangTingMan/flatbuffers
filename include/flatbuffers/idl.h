@@ -45,6 +45,12 @@
 #  define FLATBUFFERS_MAX_PARSING_DEPTH 64
 #endif
 
+#ifdef _MSC_VER
+#ifdef ERROR
+#undef ERROR
+#endif
+#endif
+
 namespace flatbuffers {
 
 // The order of these matters for Is*() functions below.
